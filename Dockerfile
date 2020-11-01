@@ -70,11 +70,9 @@ WORKDIR /opt/grobid
 
 ENV JAVA_OPTS=-Xmx4g
 
-# Add Tini
-ENV TINI_VERSION v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-ENTRYPOINT ["/tini", "-s", "--"]
+# Add dumb init
+RUN apt install dumb-init
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 CMD ["./grobid-service/bin/grobid-service", "server", "grobid-service/config/config.yaml"]
 
